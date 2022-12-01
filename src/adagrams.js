@@ -42,7 +42,6 @@ export const drawLetters = () => {
     }
   
   };
-  // console.log(`this is the adagrams pool ${adagramsPool}`);
     
   for (let i = 0; i < 10; i++){
     let choice = Math.floor(Math.random() * adagramsPool.length);
@@ -52,17 +51,10 @@ export const drawLetters = () => {
     if (index > -1) {
       adagramsPool.splice(index, 1)
     }
-    // console.log(index)
-    
-
-    // console.log(item);
   
-     
   }
   return (userLetterList)
-  // console.log(adagramsPool)
     
-   
 };
 
 
