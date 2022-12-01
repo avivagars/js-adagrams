@@ -31,45 +31,40 @@ const LETTER_POOL =  {
 
 
 export const drawLetters = () => {
-
-  // Implement this method for wave 1
-// def draw_letters():
-// user_letter_list = []
-// #changed from a constant 
-// pool_of_letters = LETTER_POOL.copy()
-// adagrams_pool = []
-// for key,value in pool_of_letters.items():
-//   for i in range(value):
-//       adagrams_pool.append(key)
-
-
-// for num in range(10):
-//   choice = random.choice(adagrams_pool)
-//   user_letter_list.append(choice)
-//   adagrams_pool.remove(choice)
-
-
-// return user_letter_list
   let userLetterList = [];
-  let poolOfLetters = Array.from(LETTER_POOL);
+  let poolOfLetters = LETTER_POOL;
+
   let adagramsPool = [];
-  for (const [key, value] of Object.entries(poolOfLetters)) {
+
+  for (const [key, value] of Object.entries(poolOfLetters)) { 
     for (let i = 0; i < value; i++){
-      adagramsPool.push(value)
-  for (let i = 0; i < 11; i++){
-    choice = Math.random(adagramsPool);
-    userLetterList.push(choice);
-    adagramsPool.pop(choice);
-  return userLetterList;  
+      adagramsPool.push(key)
+    }
+  
+  };
+  // console.log(`this is the adagrams pool ${adagramsPool}`);
+    
+  for (let i = 0; i < 10; i++){
+    let choice = Math.floor(Math.random() * adagramsPool.length);
+    let item = adagramsPool[choice];
+    userLetterList.push(item)
+    let index = adagramsPool.indexOf(item);
+    if (index > -1) {
+      adagramsPool.splice(index, 1)
+    }
+    // console.log(index)
+    
 
-  };  
-
-    };
+    // console.log(item);
+  
+     
+  }
+  return (userLetterList)
+  // console.log(adagramsPool)
+    
+   
 };
 
-
-
-};
 
 export const usesAvailableLetters = (input, lettersInHand) => {
   // Implement this method for wave 2
