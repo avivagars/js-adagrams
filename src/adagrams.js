@@ -88,12 +88,11 @@ const adagramsPoints = {
 
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  let word = input.split('');
-  for(let i in word){
-    if(!(lettersInHand.includes(word[i]))){
+  for(let i in input){
+    if(!(lettersInHand.includes(input[i]))){
       return false
     }else{
-      lettersInHand.splice(word[i], 1) 
+      lettersInHand.splice(input[i], 1) 
     }
   }
   return true
