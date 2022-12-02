@@ -1,5 +1,5 @@
 
-const LETTER_POOL =  {
+const letterPool =  {
   'A': 9, 
   'B': 2, 
   'C': 2, 
@@ -58,31 +58,33 @@ const adagramsPoints = {
   }
 
 
-
-export const drawLetters = () => {
-  let userLetterList = [];
-  let poolOfLetters = LETTER_POOL;
-
-  let adagramsPool = [];
-
-  for (const [key, value] of Object.entries(poolOfLetters)) { 
-    for (let i = 0; i < value; i++){
-      adagramsPool.push(key)
+  export const drawLetters = () => {
+    let hand = [];
+    let letterPoolList = [];
+  
+    // letterPoolList contains all available letters that player can select from
+    for (const [key, value] of Object.entries(letterPool)) {
+      for (let i = 0; i < value; i++) {
+        letterPoolList.push(key);
+      }
     }
   
-  };
-    
-  for (let i = 0; i < 10; i++){
-    let choice = Math.floor(Math.random() * adagramsPool.length);
-    let item = adagramsPool[choice];
-    userLetterList.push(item)
-    let idx = adagramsPool.indexOf(item);
-    adagramsPool.splice(idx, 1);
-    console.log(item[i])
+    // helper function to select a random letter from letterPoolList
+    const selectRandomLetter = (letterPoolList) => {
+      let letter =
+        letterPoolList[Math.floor(Math.random() * letterPoolList.length)];
+      return letter;
+    };
+  
+    // builds a hand of 10 random letters
+    for (let i = 0; i < 10; i++) {
+      const letter = selectRandomLetter(letterPoolList);
+      hand.push(letter);
+      let index = letterPoolList.indexOf(letter);
+      letterPoolList.splice(index, 1);
     }
-  return (userLetterList)
-    
-};
+    return hand;
+  };
 
 
 export const usesAvailableLetters = (input, lettersInHand) => {
