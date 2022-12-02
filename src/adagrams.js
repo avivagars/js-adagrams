@@ -28,6 +28,35 @@ const LETTER_POOL =  {
   'Z': 1
 }
 
+const adagramsPoints = {
+  'A': 1,
+  'E': 1, 
+  'I': 1, 
+  'O': 1, 
+  'U': 1, 
+  'L': 1,
+  'N': 1,
+  'R': 1, 
+  'S': 1, 
+  'T': 1,
+  'D': 2,
+  'G': 2,
+  'B': 3, 
+  'C': 3, 
+  'M': 3, 
+  'P': 3,
+  'F': 4,
+  'H': 4, 
+  'V': 4, 
+  'W': 4,
+  'Y': 4,
+  'K': 5,
+  'J': 8,
+  'X': 8,
+  'Q': 10,
+  'Z': 10
+  }
+
 
 
 export const drawLetters = () => {
@@ -47,25 +76,58 @@ export const drawLetters = () => {
     let choice = Math.floor(Math.random() * adagramsPool.length);
     let item = adagramsPool[choice];
     userLetterList.push(item)
-    let index = adagramsPool.indexOf(item);
-    if (index > -1) {
-      adagramsPool.splice(index, 1)
+    let idx = adagramsPool.indexOf(item);
+    adagramsPool.splice(idx, 1);
+    console.log(item[i])
     }
-  
-  }
   return (userLetterList)
     
 };
 
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+  let word = input.split('');
+  for(let i in word){
+    if(!(lettersInHand.includes(word[i]))){
+      return false
+    }else{
+      lettersInHand.splice(word[i], 1) 
+    }
+  }
+  return true
+  
 };
+
 
 export const scoreWord = (word) => {
   // Implement this method for wave 3
+  let score = 0
+  
+    for (let i = 0; i<word.length; i++) {
+      score += adagramsPoints[word.toUpperCase()[i]]
+    }
+    if (word.length >= 7){
+      score += 8
+    }
+    return score
 };
 
 export const highestScoreFrom = (words) => {
   // Implement this method for wave 4
+  const wordPoints = {}
+  const winnerDict = {}
+  for (const i in words){
+    wordPoints[words[i]] = scoreWord(words[i])
+    
+  }
+ 
+  let points = (Object.values(wordPoints));
+  let winner = Math.max(...points);
+  for(const [key, value] of Object.entries(wordPoints)) {
+    if(winner === value){
+      winnerDict["word"] = key
+      winnerDict["score"] = value
+    }
+  }
+  return winnerDict
 };
