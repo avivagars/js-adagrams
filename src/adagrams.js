@@ -84,3 +84,19 @@ export const drawLetters = () => {
   return hand;
 };
 
+
+export const usesAvailableLetters = (input, lettersInHand) => {
+  
+  for (let i = 0; i < input.length; i++) {
+    if (lettersInHand.includes(input[i])) {
+      let index = lettersInHand.indexOf(input[i]);
+      lettersInHand.splice(index, 1);
+    } else {
+      return false;
+    }
+  }
+  // returns true only if all letters in input are available in lettersHand
+  return true;
+};
+
+
