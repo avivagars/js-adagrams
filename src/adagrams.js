@@ -59,36 +59,27 @@ class Adagrams {
     };
   }
 
-  // helper functions Wave 01
-  // create a list that contains all available letters that player can select from
-  createLetterPoolList = () => {
-    const letterPoolList = [];
-    for (let [key, value] of Object.entries(this.letterPool)) {
-      for (let i = 0; i < value; i++) {
-        letterPoolList.push(key);
-      }
-    }
-    return letterPoolList;
-  };
-
-  // select a random letter from letterPoolList
-  selectRandomLetter = (letterPoolList) => {
-    let randomLetter =
-      letterPoolList[Math.floor(Math.random() * letterPoolList.length)];
-    return randomLetter;
-  };
-
   // Wave 01
   drawLetters = () => {
-    const hand = [];
-    const availableLettersPool = createLetterPoolList();
+    const availableLettersPool = [];
 
-    // builds a hand of 10 random letters
+    for (let [key, value] of Object.entries(this.letterPool)) {
+      for (let i = 0; i < value; i++) {
+        availableLettersPool.push(key);
+      }
+    }
+    return this.selectRandomLetters(availableLettersPool);
+  };
+
+  // Helper function wave 01
+  selectRandomLetters = (letters) => {
+    const hand = [];
+
     for (let i = 0; i < 10; i++) {
-      let letter = selectRandomLetter(availableLettersPool);
+      let letter = letters[Math.floor(Math.random() * letters.length)];
       hand.push(letter);
-      let index = availableLettersPool.indexOf(letter);
-      availableLettersPool.splice(index, 1);
+      let index = letters.indexOf(letter);
+      letters.splice(index, 1); // removes letter from letters(list)
     }
     return hand;
   };
@@ -103,16 +94,14 @@ class Adagrams {
         return false;
       }
     }
-    // returns true only if all letters in input are available in lettersHand
-    return true;
+    return true; // returns true only if all letters in input are available in lettersHand
   };
 
   // Wave 03
   scoreWord = (word) => {
-    // Implement this method for wave 3
     let score = 0;
     for (let i = 0; i < word.length; i++) {
-      score += letterValues[word.toUpperCase()[i]];
+      score += this.letterValues[word.toUpperCase()[i]];
     }
     if (word.length > 6) {
       score += 8;
@@ -122,28 +111,39 @@ class Adagrams {
 
   // Wave 04
   highestScoreFrom = (words) => {
-    // Implement this method for wave 4
-    let score = scoreWord;
-    let winner = { word: "", score: 0 };
+    const scores = words.map((word) => this.scoreWord(word));
+    const maxScore = Math.max(...scores);
 
-    for (let i = 0; i < words.length; i++) {
-      if (score(words[i]) > winner["score"]) {
-        winner["word"] = words[i];
-        winner["score"] = score(words[i]);
-      } else if (
-        score(words[i]) === winner["score"] &&
-        winner["word"].length != 10
-      ) {
-        if (words[i].length === 10) {
-          winner["word"] = words[i];
-          winner["score"] = score(words[i]);
-        } else if (words[i].length < winner["word"].length) {
-          winner["word"] = words[i];
-          winner["score"] = score(words[i]);
-        }
+    const winner = {
+      word: "",
+      score: maxScore,
+    };
+    // Check if there is a tie (more than one word with highest score)
+    // If so, add them to maxScoreWords and then apply tieBraker rules
+    const maxScoreWords = [];
+
+    words.forEach((word) => {
+      if (this.scoreWord(word) === maxScore) {
+        maxScoreWords.push(word);
       }
-      return winner;
-    }
+    });
+    winner.word = this.tieBreaker(maxScoreWords);
+
+    return winner;
+  };
+
+  // helper function wave 04
+  tieBreaker = (words) => {
+    return words.reduce((word, anotherWord) => {
+      if (word.length === 10) {
+        return word;
+      } else if (anotherWord.length == 10) {
+        return anotherWord;
+      } else if (word.length > anotherWord.length) {
+        return anotherWord;
+      }
+      return word; // if no tieBreaker rule applies, select first word as the winner
+    });
   };
 }
 
