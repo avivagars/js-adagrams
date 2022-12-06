@@ -76,11 +76,12 @@ class Adagrams {
     const hand = [];
 
     for (let i = 0; i < 10; i++) {
-      let letter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
+      let letter =
+        availableLetters[Math.floor(Math.random() * availableLetters.length)];
       hand.push(letter);
       let index = availableLetters.indexOf(letter);
       availableLetters.splice(index, 1); // removes letter from letters(list)
-    };
+    }
     return hand;
   };
 
@@ -92,8 +93,8 @@ class Adagrams {
         lettersInHand.splice(index, 1);
       } else {
         return false;
-      };
-    };
+      }
+    }
     return true; // returns true only if all letters in input are available in lettersHand
   };
 
@@ -102,10 +103,10 @@ class Adagrams {
     let score = 0;
     for (let i = 0; i < word.length; i++) {
       score += this.letterValues[word.toUpperCase()[i]];
-    };
+    }
     if (word.length > 6) {
       score += 8;
-    };
+    }
     return score;
   };
 
@@ -125,7 +126,7 @@ class Adagrams {
     words.forEach((word) => {
       if (this.scoreWord(word) === maxScore) {
         maxScoreWords.push(word);
-      };
+      }
     });
     winner.word = this.tieBreaker(maxScoreWords);
 
@@ -141,11 +142,11 @@ class Adagrams {
         return anotherWord;
       } else if (word.length > anotherWord.length) {
         return anotherWord;
-      };
+      }
       return word; // if no tieBreaker rule applies, select first word as the winner
     });
   };
-};
+}
 
 // export class
 export default Adagrams;
