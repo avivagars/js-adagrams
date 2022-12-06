@@ -61,25 +61,25 @@ class Adagrams {
 
   // Wave 01
   drawLetters = () => {
-    const availableLettersPool = [];
+    const letterPoolList = [];
 
     for (let [key, value] of Object.entries(this.letterPool)) {
       for (let i = 0; i < value; i++) {
-        availableLettersPool.push(key);
+        letterPoolList.push(key);
       }
     }
-    return this.selectRandomLetters(availableLettersPool);
+    return this.selectRandomLetters(letterPoolList);
   };
 
   // Helper function wave 01
-  selectRandomLetters = (letters) => {
+  selectRandomLetters = (availableLetters) => {
     const hand = [];
 
     for (let i = 0; i < 10; i++) {
-      let letter = letters[Math.floor(Math.random() * letters.length)];
+      let letter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
       hand.push(letter);
-      let index = letters.indexOf(letter);
-      letters.splice(index, 1); // removes letter from letters(list)
+      let index = availableLetters.indexOf(letter);
+      availableLetters.splice(index, 1); // removes letter from letters(list)
     }
     return hand;
   };
